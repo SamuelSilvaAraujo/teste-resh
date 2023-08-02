@@ -1,0 +1,24 @@
+version: "3"
+services:
+    resh:
+        image: samuel/resh
+        build:
+            context: .
+        volumes:
+            - .:/var/www/
+        ports:
+            - "8000:8000"
+        links:
+            - "database:database"
+        environment:
+            - DATABASE_URL=postgresql://postgres:postgres@database/postgres
+    database:
+        image: postgres:13-alpine
+        environment:
+            POSTGRES_PASSWORD: postgres
+        ports:
+            - "5432:5432"
+        volumes:
+            - database:/var/lib/postgresql/reshdb
+volumes:
+    database:
