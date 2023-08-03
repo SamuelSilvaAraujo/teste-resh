@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "api",
     "core",
     "rest_framework",
+    "rest_framework.authtoken",
 ]
 
 MIDDLEWARE = [
@@ -125,3 +126,10 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 LOGIN_REDIRECT_URL = "core:profile"
 LOGIN_URL = "core:login"
 LOGOUT_REDIRECT_URL = "core:login"
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_THROTTLE_RATES': {
+        'register': '10/minute',
+    },
+}
