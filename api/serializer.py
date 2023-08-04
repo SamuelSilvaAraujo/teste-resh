@@ -78,19 +78,12 @@ class ProfileSerializer(serializers.ModelSerializer):
         read_only_fields = [
             "email",
         ]
-    
+
     def get_name(self, obj):
         return obj.get_full_name()
 
 
 class ChangePasswordSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(
-        write_only=True,
-        style={"input_type": "password"},
-        trim_whitespace=False,
-        max_length=200,
-        min_length=8,
-    )
     new_password = serializers.CharField(
         write_only=True,
         style={"input_type": "password"},
@@ -98,40 +91,36 @@ class ChangePasswordSerializer(serializers.ModelSerializer):
         max_length=200,
         min_length=8,
     )
-    
 
     class Meta:
         model = User
         fields = [
-            "password",
             "new_password",
         ]
-    
-    def validate_password(self, value):
-        if self.instance.check_password(value):
-            return value
-        raise serializers.ValidationError('Senha Inválida')
 
     def validate_new_password(self, value):
         validate_password(value, self.instance)
         return value
-    
+
     def save(self, **kwargs):
-        self.instance.set_password(self.validated_data['new_password'])
-        self.instance.save(update_fields=['password'])
+        self.instance.set_password(self.validated_data["new_password"])
+        self.instance.save(update_fields=["password"])
         return self.instance
 
 
-class ChangeEmailSerializer(serializers.ModelSerializer):
-
+class ChangeUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
             "email",
+            "first_name",
+            "last_name",
         ]
 
     def save(self, **kwargs):
         self.instance.email = self.validated_data["email"]
         self.instance.username = self.validated_data["email"]
-        self.instance.save(update_fields=['email', 'username'])
+        self.instance.first_name = self.validated_data["first_name"]
+        self.instance.last_name = self.validated_data["last_name"]
+        self.instance.save()
         return self.instance

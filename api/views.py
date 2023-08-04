@@ -14,7 +14,7 @@ from api.serializer import (
     LoginSerializer,
     ProfileSerializer,
     ChangePasswordSerializer,
-    ChangeEmailSerializer,
+    ChangeUserSerializer,
 )
 from api.throttles import RegisterThrottle
 
@@ -60,13 +60,13 @@ class ChangePasswordApiView(UpdateAPIView):
         return self.request.user
 
 
-class ChangeEmailApiView(UpdateAPIView):
+class ChangeUserApiView(UpdateAPIView):
     """
-    `api/change/email/` -- alterar email do usuário
+    `api/change/user/` -- alterar o usuário
     """
 
     permission_classes = (IsAuthenticated,)
-    serializer_class = ChangeEmailSerializer
+    serializer_class = ChangeUserSerializer
 
     def get_object(self):
         return self.request.user
@@ -77,3 +77,10 @@ class LogoutApiView(DestroyAPIView):
 
     def get_object(self):
         return get_object_or_404(Token, user=self.request.user)
+
+
+class DeleteAccoutApiView(DestroyAPIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get_object(self):
+        return self.request.user

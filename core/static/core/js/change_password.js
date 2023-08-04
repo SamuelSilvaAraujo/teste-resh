@@ -15,31 +15,6 @@ var KTSignupGeneral = function () {
             form,
             {
                 fields: {
-                    'first_name': {
-                        validators: {
-                            notEmpty: {
-                                message: 'First Name is required'
-                            }
-                        }
-                    },
-                    'last_name': {
-                        validators: {
-                            notEmpty: {
-                                message: 'Last Name is required'
-                            }
-                        }
-                    },
-                    'email': {
-                        validators: {
-                            regexp: {
-                                regexp: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                                message: 'The value is not a valid email address',
-                            },
-                            notEmpty: {
-                                message: 'Email address is required'
-                            }
-                        }
-                    },
                     'password': {
                         validators: {
                             notEmpty: {
@@ -68,13 +43,6 @@ var KTSignupGeneral = function () {
                             }
                         }
                     },
-                    'toc': {
-                        validators: {
-                            notEmpty: {
-                                message: 'You must accept the terms and conditions'
-                            }
-                        }
-                    }
                 },
                 plugins: {
                     trigger: new FormValidation.plugins.Trigger({
@@ -109,14 +77,13 @@ var KTSignupGeneral = function () {
                         type: "POST",
                         url: form.action,
                         data: {
-                            "email": form.querySelector('[name="email"]').value,
-                            "first_name": form.querySelector('[name="first_name"]').value,
-                            "last_name": form.querySelector('[name="last_name"]').value,
-                            "password": form.querySelector('[name="password"]').value,
+                            "new_password": form.querySelector('[name="password"]').value,
                             csrfmiddlewaretoken: csrfToken
                         },
+                        headers: {
+                            "Authorization": `Token ${localStorage.getItem("token")}`,
+                        },
                         success: function (response) {
-                            console.log(response)
                             var redirectUrl = form.getAttribute('data-kt-redirect-url');
                             if (redirectUrl) {
                                 location.href = redirectUrl;
@@ -125,8 +92,7 @@ var KTSignupGeneral = function () {
                         error: function (error) {
                             console.log(error)
                         }
-                    });
-  						
+                    });					
                 } else {
                     // Show error popup. For more info check the plugin's official documentation: https://sweetalert2.github.io/
                     Swal.fire({

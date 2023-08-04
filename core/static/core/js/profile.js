@@ -44,12 +44,34 @@ var KTProfile = function () {
         });
     }
 
+    let deleteAccout = function () {
+        let deleteButton = document.querySelector("#delete_user");
+
+        deleteButton .addEventListener("click", function () {
+            $.ajax({
+                type: "DELETE",
+                url: deleteUrl,
+                headers: {
+                    "Authorization": `Token ${localStorage.getItem("token")}`,
+                },
+                success: function (response) {
+                    localStorage.removeItem("token");
+                    location.href = loginUrl;
+                },
+                error: function (error) {
+                    console.log(error)
+                }
+            });
+        });
+    }
+
     // Public functions
     return {
         // Initialization
         init: function () {
             initProfile();
             logout();
+            deleteAccout();
         }
     };
 }();

@@ -138,7 +138,16 @@ var KTSigninGeneral = function () {
                             }
                         },
                         error: function (error) {
-                            console.log(error)
+                            console.log(error);
+                            Swal.fire({
+                                text: "Sorry, the email or password is incorrect, please try again.",
+                                icon: "error",
+                                buttonsStyling: false,
+                                confirmButtonText: "Ok, got it!",
+                                customClass: {
+                                    confirmButton: "btn btn-primary"
+                                }
+                            });
                         }
                     });
 
@@ -163,15 +172,15 @@ var KTSigninGeneral = function () {
                     //         // 
                     //     } else {
                     //         console.log(response)
-                    //         Swal.fire({
-                    //             text: "Sorry, the email or password is incorrect, please try again.",
-                    //             icon: "error",
-                    //             buttonsStyling: false,
-                    //             confirmButtonText: "Ok, got it!",
-                    //             customClass: {
-                    //                 confirmButton: "btn btn-primary"
-                    //             }
-                    //         });
+                            // Swal.fire({
+                            //     text: "Sorry, the email or password is incorrect, please try again.",
+                            //     icon: "error",
+                            //     buttonsStyling: false,
+                            //     confirmButtonText: "Ok, got it!",
+                            //     customClass: {
+                            //         confirmButton: "btn btn-primary"
+                            //     }
+                            // });
                     //     }
                     // }).catch(function (error) {
                     //     Swal.fire({
