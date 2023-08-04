@@ -1,4 +1,12 @@
-from rest_framework.generics import CreateAPIView, RetrieveDestroyAPIView, UpdateAPIView
+from django.shortcuts import get_object_or_404
+from rest_framework.authtoken.models import Token
+
+from rest_framework.generics import (
+    CreateAPIView,
+    RetrieveDestroyAPIView,
+    UpdateAPIView,
+    DestroyAPIView,
+)
 from rest_framework.permissions import IsAuthenticated
 
 from api.serializer import (
@@ -15,6 +23,7 @@ class RegisterApiView(CreateAPIView):
     """
     `api/register/` -- registar um novo usuário
     """
+
     serializer_class = RegisterSerializer
     throttle_classes = [RegisterThrottle]
 
@@ -23,6 +32,7 @@ class LoginApiView(CreateAPIView):
     """
     `api/login/` -- login do usuário
     """
+
     serializer_class = LoginSerializer
 
 
@@ -30,6 +40,7 @@ class ProfileApiView(RetrieveDestroyAPIView):
     """
     `api/profile/` -- perfil do usuário
     """
+
     permission_classes = (IsAuthenticated,)
     serializer_class = ProfileSerializer
 
@@ -41,18 +52,28 @@ class ChangePasswordApiView(UpdateAPIView):
     """
     `api/change/password/` -- alterar senha do usuário
     """
+
     permission_classes = (IsAuthenticated,)
     serializer_class = ChangePasswordSerializer
 
     def get_object(self):
         return self.request.user
 
+
 class ChangeEmailApiView(UpdateAPIView):
     """
     `api/change/email/` -- alterar email do usuário
     """
+
     permission_classes = (IsAuthenticated,)
     serializer_class = ChangeEmailSerializer
 
     def get_object(self):
         return self.request.user
+
+
+class LogoutApiView(DestroyAPIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get_object(self):
+        return get_object_or_404(Token, user=self.request.user)

@@ -53,8 +53,6 @@ class LoginSerializer(serializers.Serializer):
         return Token.objects.filter(user=self.usuario).latest("created").key
 
     def validate(self, data):
-        print(data["username"])
-        print(User.objects.all().values("username"))
         self.usuario = authenticate(
             username=data["username"],
             password=data["password"],

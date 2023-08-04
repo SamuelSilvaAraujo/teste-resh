@@ -26,7 +26,7 @@
                     <div class="d-flex flex-column">
                         <!--begin::Name-->
                         <div class="d-flex align-items-center mb-2">
-                            <a href="#" class="text-gray-900 text-hover-primary fs-2 fw-bold me-1">Max Smith</a>
+                            <div class="text-gray-900 text-hover-primary fs-2 fw-bold me-1" id="profile_name"></div>
                         </div>
                         <!--end::Name-->
                         <!--begin::Info-->
@@ -44,7 +44,8 @@
                                             fill="currentColor" />
                                     </svg>
                                 </span>
-                                <!--end::Svg Icon-->max@kt.com
+                                <!--end::Svg Icon-->
+                                <div id="profile_email"></div>
                             </a>
                         </div>
                         <!--end::Info-->
@@ -52,7 +53,7 @@
                     <!--end::User-->
                     <!--begin::Actions-->
                     <div class="d-flex my-4">
-                        <a href="#" class="btn btn-sm btn-light me-2" id="kt_user_follow_button">
+                        <a href="#" class="btn btn-sm btn-light me-2" id="kt_logout_button">
                             <!--begin::Svg Icon | path: icons/duotune/arrows/arr012.svg-->
                             <span class="svg-icon svg-icon-3 d-none">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -78,7 +79,20 @@
             <!--end::Info-->
         </div>
         <!--end::Details-->
+        <div class="mb-6">
+            <button class="btn btn-primary" id="change_email">Alterar E-mail</button>
+            <button class="btn btn-danger" id="change_password">Alterar Senha</button>
+        </div>
     </div>
 </div>
 <!--end::Navbar-->
+{% endblock %}
+
+{% block javascript %}
+<script src="{% static 'core/js/profile.js' %}"></script>
+<script>
+    const url = "{% url 'api:profile' %}";
+    const logoutUrl = "{% url 'api:logout' %}";
+    const loginUrl = "{% url 'core:login' %}";
+</script>
 {% endblock %}
