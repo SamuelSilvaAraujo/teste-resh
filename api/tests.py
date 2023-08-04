@@ -41,6 +41,36 @@ class RegisterTestCase(TestCase):
             User.objects.filter(username=self.register_data["email"]).first().last_name,
             self.register_data["last_name"],
         )
+    
+    def test_register_email_not_found(self):
+        self.register_data.update({"email": ""})
+
+        request = self.client.post(self.url, self.register_data, format="json")
+
+        self.assertEqual(request.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn("This field may not be blank.", request.data["email"])
+
+        del self.register_data["email"]
+
+        request = self.client.post(self.url, self.register_data, format="json")
+
+        self.assertEqual(request.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn("This field is required.", request.data["email"])
+    
+    def test_register_password_not_found(self):
+        self.register_data.update({"password": ""})
+
+        request = self.client.post(self.url, self.register_data, format="json")
+
+        self.assertEqual(request.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn("This field may not be blank.", request.data["password"])
+
+        del self.register_data["password"]
+
+        request = self.client.post(self.url, self.register_data, format="json")
+
+        self.assertEqual(request.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn("This field is required.", request.data["password"])
 
 
 class LoginTestCase(TestCase):
@@ -74,6 +104,18 @@ class LoginTestCase(TestCase):
         request = self.client.post(self.url, self.login_data, format="json")
         self.assertEqual(request.status_code, status.HTTP_201_CREATED)
         self.assertIn("token", request.data)
+
+    def test_login_email_unauthorized(self):
+        self.login_data.update({"username": "teste"})
+
+        request = self.client.post(self.url, self.login_data, format="json")
+        self.assertEqual(request.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_login_password_unauthorized(self):
+        self.login_data.update({"password": "teste123-"})
+
+        request = self.client.post(self.url, self.login_data, format="json")
+        self.assertEqual(request.status_code, status.HTTP_401_UNAUTHORIZED)
 
 
 class ProfileTestCase(TestCase):
@@ -153,12 +195,12 @@ class ChangePasswordTestCase(TestCase):
         self.assertEqual(request.status_code, status.HTTP_200_OK)
 
 
-class ChangeEmailTestCase(TestCase):
+class ChangeUserTestCase(TestCase):
 
     def setUp(self):
         self.client = APIClient()
 
-        self.url = reverse_lazy("api:change_email")
+        self.url = reverse_lazy("api:change_user")
 
         self.register_data = {
             "email": "usuario01@gmail.com",
@@ -175,15 +217,17 @@ class ChangeEmailTestCase(TestCase):
             username=self.register_data["email"],
         )
 
-        self.change_email = {
+        self.new_data = {
             "email": "fulanodasilva@gmail.com",
+            "first_name": "Fulano",
+            "last_name": "da silva",
         }
 
     def test_change_password(self):
         self.client.force_authenticate(self.user)
 
-        request = self.client.put(self.url, self.change_email, format="json")
+        request = self.client.put(self.url, self.new_data, format="json")
 
         self.assertEqual(request.status_code, status.HTTP_200_OK)
-        self.assertEqual(self.user.email, self.change_email['email'])
-        self.assertEqual(self.user.username, self.change_email['email'])
+        self.assertEqual(self.user.email, self.new_data['email'])
+        self.assertEqual(self.user.username, self.new_data['email'])

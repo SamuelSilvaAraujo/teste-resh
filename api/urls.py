@@ -7,7 +7,6 @@ from api.views import (
     ChangePasswordApiView,
     ChangeUserApiView,
     LogoutApiView,
-    DeleteAccoutApiView,
 )
 
 app_name = "api"
@@ -22,7 +21,6 @@ urlpatterns = [
                 path("login/", LoginApiView.as_view(), name="login"),
                 path("logout/", LogoutApiView.as_view(), name="logout"),
                 path("profile/", ProfileApiView.as_view(), name="profile"),
-                path("delete/", DeleteAccoutApiView.as_view(), name="delete"),
                 path(
                     "change/",
                     include(

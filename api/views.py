@@ -73,14 +73,10 @@ class ChangeUserApiView(UpdateAPIView):
 
 
 class LogoutApiView(DestroyAPIView):
+    """
+    `api/logout/` -- logout do usuário
+    """
     permission_classes = (IsAuthenticated,)
 
     def get_object(self):
         return get_object_or_404(Token, user=self.request.user)
-
-
-class DeleteAccoutApiView(DestroyAPIView):
-    permission_classes = (IsAuthenticated,)
-
-    def get_object(self):
-        return self.request.user
