@@ -47,12 +47,14 @@ class LoginSerializer(serializers.Serializer):
         max_length=200,
         min_length=8,
     )
-    token = serializers.SerializerMethodField()
+    token = serializers.SerializerMethodField(read_only=True)
 
     def get_token(self, obj):
         return Token.objects.filter(user=self.usuario).latest("created").key
 
     def validate(self, data):
+        print(data["username"])
+        print(User.objects.all().values("username"))
         self.usuario = authenticate(
             username=data["username"],
             password=data["password"],

@@ -11,6 +11,7 @@ User = get_user_model()
 
 
 class RegisterTestCase(TestCase):
+    
     def setUp(self):
         self.client = APIClient()
 
@@ -43,6 +44,7 @@ class RegisterTestCase(TestCase):
 
 
 class LoginTestCase(TestCase):
+
     def setUp(self):
         self.client = APIClient()
 
@@ -70,11 +72,12 @@ class LoginTestCase(TestCase):
 
     def test_login(self):
         request = self.client.post(self.url, self.login_data, format="json")
-
         self.assertEqual(request.status_code, status.HTTP_201_CREATED)
+        self.assertIn("token", request.data)
 
 
 class ProfileTestCase(TestCase):
+
     def setUp(self):
         self.client = APIClient()
 
@@ -116,6 +119,7 @@ class ProfileTestCase(TestCase):
 
 
 class ChangePasswordTestCase(TestCase):
+
     def setUp(self):
         self.client = APIClient()
 
@@ -150,6 +154,7 @@ class ChangePasswordTestCase(TestCase):
 
 
 class ChangeEmailTestCase(TestCase):
+
     def setUp(self):
         self.client = APIClient()
 
