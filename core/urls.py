@@ -5,7 +5,6 @@ from core.views import (
     LoginView,
     RegisterView,
     ChangeUserView,
-    ChangePasswordView,
 )
 
 app_name = "core"
@@ -19,7 +18,6 @@ urlpatterns = [
         include(
             [
                 path("user/", ChangeUserView.as_view(), name="change_user"),
-                path("password/", ChangePasswordView.as_view(), name="change_password"),
             ]
         ),
     ),

@@ -25,19 +25,19 @@
                     <!--begin::Input group=-->
                     <div class="fv-row mb-8">
                         <!--begin::Email-->
-                        <input type="text" placeholder="Email" name="email" autocomplete="off"
+                        <input type="text" placeholder="Email" name="email" id="id_email" autocomplete="off"
                             class="form-control bg-transparent" />
                         <!--end::Email-->
                     </div>
                     <div class="fv-row mb-8">
                         <!--begin::Email-->
-                        <input type="text" placeholder="Primeiro nome" name="first_name" autocomplete="off"
+                        <input type="text" placeholder="Primeiro nome" name="first_name" id="id_first_name" autocomplete="off"
                             class="form-control bg-transparent" />
                         <!--end::Email-->
                     </div>
                     <div class="fv-row mb-8">
                         <!--begin::Email-->
-                        <input type="text" placeholder="Ultimo nome" name="last_name" autocomplete="off"
+                        <input type="text" placeholder="Ultimo nome" name="last_name" id="id_last_name" autocomplete="off"
                             class="form-control bg-transparent" />
                         <!--end::Email-->
                     </div>
@@ -72,5 +72,6 @@
 <script src="{% static 'core/js/change_user.js' %}"></script>
 <script>
     const csrfToken = '{% csrf_token %}';
+    const profileUrl = "{% url 'api:profile' %}";
 </script>
 {% endblock %}

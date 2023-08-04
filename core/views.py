@@ -13,6 +13,3 @@ class RegisterView(TemplateView):
 
 class ChangeUserView(TemplateView):
     template_name = "change_user.html"
-
-class ChangePasswordView(TemplateView):
-    template_name = "change_password.html"

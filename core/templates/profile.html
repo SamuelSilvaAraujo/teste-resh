@@ -81,7 +81,6 @@
         <!--end::Details-->
         <div class="mb-6">
             <a href="{% url 'core:change_user' %}" class="btn btn-primary">Alterar Usuário</a>
-            <a href="{% url 'core:change_password' %}" class="btn btn-warning" id="change_password">Alterar Senha</a>
             <button class="btn btn-danger" id="delete_user">Deletar usuario</button>
         </div>
     </div>
@@ -95,6 +94,5 @@
     const url = "{% url 'api:profile' %}";
     const logoutUrl = "{% url 'api:logout' %}";
     const loginUrl = "{% url 'core:login' %}";
-    const deleteUrl = "{% url 'api:delete' %}"
 </script>
 {% endblock %}

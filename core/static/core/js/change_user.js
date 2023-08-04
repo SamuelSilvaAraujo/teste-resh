@@ -7,6 +7,24 @@ var KTSignupGeneral = function () {
     var submitButton;
     var validator;
 
+    let getValues = function() {
+        $.ajax({
+            type: "GET",
+            url: profileUrl,
+            headers: {
+                "Authorization": `Token ${localStorage.getItem("token")}`,
+            },
+            success: function (response) {
+                document.querySelector("#id_email").value = response['email']
+                document.querySelector("#id_first_name").value = response['name'].split(" ")[0]
+                document.querySelector("#id_last_name").value = response['name'].split(" ")[1]
+            },
+            error: function (error) {
+                console.log(error)
+            }
+        });
+    }
+
     // Handle form
     var handleForm = function (e) {
         // Init form validation rules. For more info check the FormValidation plugin's official documentation:https://formvalidation.io/
@@ -116,6 +134,7 @@ var KTSignupGeneral = function () {
             form = document.querySelector('#kt_sign_up_form');
             submitButton = document.querySelector('#kt_sign_up_submit');
 
+            getValues();
             handleForm();
         }
     };
